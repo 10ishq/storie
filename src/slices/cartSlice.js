@@ -1,8 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import storage from 'redux-persist/lib/storage';
 
 const initialState = {
   cartItems: [],
   total: 0,
+};
+
+const cartPersistConfig = {
+  key: 'cart',
+  storage: storage,
 };
 
 const cartSlice = createSlice({
@@ -13,7 +20,7 @@ const cartSlice = createSlice({
       const item = action.payload;
       const quantity= action.payload.quantity || 1;
 
-      console.log(item);
+      // console.log(item);
       const existingItem = state.cartItems.find(
         (cartItem) => cartItem.id === item.id
       );
@@ -49,11 +56,12 @@ const cartSlice = createSlice({
     // updateCart function
     updateCart: (state, action) => {
         const item = action.payload;
+        
         const existingItem = state.cartItems.find(
             (cartItem) => cartItem.id === item.id
         );
         if (existingItem) {
-            existingItem.quantity = item.quantity || 1;
+            existingItem.quantity = item.quantity;
         }
         state.total = state.cartItems.reduce(
             (total, item) => total + item.price * item.quantity,
@@ -73,5 +81,7 @@ const cartSlice = createSlice({
   },
 });
 
-export default cartSlice.reducer;
-export const { addToCart, removeFromCart, updateCart,removeItemFromCart } = cartSlice.actions;
+const persistedCartReducer = persistReducer(cartPersistConfig, cartSlice.reducer);
+
+export default persistedCartReducer;
+export const { addToCart, removeFromCart, updateCart, removeItemFromCart } = cartSlice.actions;

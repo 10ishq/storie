@@ -1,14 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../slices/cartSlice";
+import { addToCart, removeFromCart, updateCart } from "../slices/cartSlice";
 import { useState } from "react";
 const Products = ({ id, title, price, category, description, image }) => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cartItems);
 
-  const [quantity, setQuantity] = useState(1);
+  
+  const [updatequantity, setupdateQuantity] = useState(1);
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div className="max-w-sm shadow-xl transition-all duration-300 dark:shadow-gray-300 dark:shadow-inner dark:hover:shadow-2xl dark:hover:shadow-gray-400 hover:shadow-2xl hover:scale-110 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
         <img className="rounded-t-lg h-96 w-full " src={image} alt="" />
       </a>
@@ -35,15 +35,16 @@ const Products = ({ id, title, price, category, description, image }) => {
                   category,
                   description,
                   image,
-                  quantity,
+                  quantity: updatequantity,
                 })
               )
             }
           >
             Add to cart
           </button>
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">${price}</h5>
           <div className="flex max-h-6">
-            <button onClick={()=>setQuantity(quantity-1 || 1)}>
+            <button onClick={()=>setupdateQuantity(updatequantity - 1 || 1)}>
               <svg
                 class="fill-current text-gray-600 dark:text-white w-3"
                 viewBox="0 0 448 512"
@@ -55,9 +56,9 @@ const Products = ({ id, title, price, category, description, image }) => {
             <input
               class="mx-2 border dark:text-white dark:bg-gray-600 text-center w-8"
               type="text"
-              value={quantity}
+              value={updatequantity}
             />
-            <button onClick={()=>setQuantity(quantity+1)}>
+            <button onClick={()=>setupdateQuantity(updatequantity +1 )}>
               <svg
                 class="fill-current text-gray-600 dark:text-white w-3"
                 viewBox="0 0 448 512"

@@ -8,7 +8,7 @@ const initialState = {
 }
 
 // Generates pending, fulfilled and rejected action types
-export const fetchFeaturedProducts = createAsyncThunk('featuredProducts/fetchFeaturedProducts', () => {
+export const fetchFeaturedProducts = createAsyncThunk('featuredProducts/fetchFeaturedProducts', (data) => {
   return axios
     .get('https://fakestoreapi.com/products?limit=5')
     .then(response => response.data)
@@ -34,5 +34,6 @@ const featuredProductslice = createSlice({
     })
   }
 })
+
 
 export default featuredProductslice.reducer
